@@ -8,8 +8,10 @@ class ContractBase(BaseModel):
     destination: str
     price: float
 
+
 class ContractCreate(ContractBase):
     pass
+
 
 class Contract(ContractBase):
     id: int
@@ -17,4 +19,3 @@ class Contract(ContractBase):
 
     class Config:
         from_attributes = True
-

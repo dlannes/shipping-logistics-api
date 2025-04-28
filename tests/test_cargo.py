@@ -8,6 +8,7 @@ def test_create_cargo(client):
     assert data["contract_id"] == 1
     assert data["status"] == "pending"
 
+
 def test_get_cargo(client):
     response = client.get("/cargos/1")
     assert response.status_code == 200

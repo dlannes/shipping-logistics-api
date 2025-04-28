@@ -2,6 +2,7 @@ from sqlalchemy import Column, Integer, String, ForeignKey
 from sqlalchemy.orm import relationship
 from app.db import Base
 
+
 class Cargo(Base):
     __tablename__ = "cargos"
 

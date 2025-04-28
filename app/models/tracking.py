@@ -3,6 +3,7 @@ from sqlalchemy.orm import relationship
 from app.db import Base
 from datetime import datetime
 
+
 class Tracking(Base):
     __tablename__ = "trackings"
 

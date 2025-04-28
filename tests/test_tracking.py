@@ -8,6 +8,7 @@ def test_create_tracking(client):
     assert data["cargo_id"] == 1
     assert data["location"] == "Warehouse"
 
+
 def test_get_tracking(client):
     response = client.get("/trackings/1")
     assert response.status_code == 200
