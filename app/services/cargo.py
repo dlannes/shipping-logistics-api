@@ -12,5 +12,5 @@ def create_cargo(db: Session, cargo: CargoCreate):
 def get_cargo(db: Session, cargo_id: int):
     return db.query(Cargo).filter(Cargo.id == cargo_id).first()
 
-def list_cargoes(db: Session):
+def list_cargos(db: Session):
     return db.query(Cargo).all()

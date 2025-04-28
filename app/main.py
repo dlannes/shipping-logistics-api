@@ -4,10 +4,10 @@ from typing import List
 
 from app import schemas, services
 from app.db import SessionLocal, engine, Base
-from app.logger import logger  # <-- Added
+from app.logger import logger
 
-Base.metadata.create_all(bind=engine)
 
+Base.metadata.create_all(bind=engine) #TODO
 app = FastAPI(title="Shipping Logistics API", version="1.0")
 
 def get_db():
@@ -16,8 +16,6 @@ def get_db():
         yield db
     finally:
         db.close()
-
-# --- Contracts ---
 
 @app.post("/contracts/", response_model=schemas.contract.Contract)
 def create_contract(contract: schemas.contract.ContractCreate, db: Session = Depends(get_db)):
@@ -38,14 +36,12 @@ def list_contracts(db: Session = Depends(get_db)):
     logger.info("Listing all contracts")
     return services.contract.list_contracts(db)
 
-# --- Cargoes ---
-
-@app.post("/cargoes/", response_model=schemas.cargo.Cargo)
+@app.post("/cargos/", response_model=schemas.cargo.Cargo)
 def create_cargo(cargo: schemas.cargo.CargoCreate, db: Session = Depends(get_db)):
     logger.info(f"Creating cargo linked to contract ID: {cargo.contract_id}")
     return services.cargo.create_cargo(db, cargo)
 
-@app.get("/cargoes/{cargo_id}", response_model=schemas.cargo.Cargo)
+@app.get("/cargos/{cargo_id}", response_model=schemas.cargo.Cargo)
 def read_cargo(cargo_id: int, db: Session = Depends(get_db)):
     logger.info(f"Fetching cargo with ID: {cargo_id}")
     db_cargo = services.cargo.get_cargo(db, cargo_id)
@@ -54,12 +50,10 @@ def read_cargo(cargo_id: int, db: Session = Depends(get_db)):
         raise HTTPException(status_code=404, detail="Cargo not found")
     return db_cargo
 
-@app.get("/cargoes/", response_model=List[schemas.cargo.Cargo])
-def list_cargoes(db: Session = Depends(get_db)):
-    logger.info("Listing all cargoes")
-    return services.cargo.list_cargoes(db)
-
-# --- Vessels ---
+@app.get("/cargos/", response_model=List[schemas.cargo.Cargo])
+def list_cargos(db: Session = Depends(get_db)):
+    logger.info("Listing all cargos")
+    return services.cargo.list_cargos(db)
 
 @app.post("/vessels/", response_model=schemas.vessel.Vessel)
 def create_vessel(vessel: schemas.vessel.VesselCreate, db: Session = Depends(get_db)):
@@ -79,8 +73,6 @@ def read_vessel(vessel_id: int, db: Session = Depends(get_db)):
 def list_vessels(db: Session = Depends(get_db)):
     logger.info("Listing all vessels")
     return services.vessel.list_vessels(db)
-
-# --- Trackings ---
 
 @app.post("/trackings/", response_model=schemas.tracking.Tracking)
 def create_tracking(tracking: schemas.tracking.TrackingCreate, db: Session = Depends(get_db)):

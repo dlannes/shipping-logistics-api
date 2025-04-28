@@ -13,7 +13,7 @@ class ContractCreate(ContractBase):
 
 class Contract(ContractBase):
     id: int
-    cargoes: list["Cargo"] | None = []
+    cargos: list["Cargo"] | None = []
 
     class Config:
         from_attributes = True
