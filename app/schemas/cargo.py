@@ -1,6 +1,6 @@
 
 from pydantic import BaseModel, Field
-from app.models.tracking import Tracking
+from app.schemas.tracking import Tracking
 
 
 class CargoBase(BaseModel):
@@ -12,7 +12,7 @@ class CargoCreate(CargoBase):
 
 class Cargo(CargoBase):
     id: int
-    tracking_history: list[Tracking] | None = []
+    tracking_history: list["Tracking"] | None = []
 
     class Config:
-        orm_mode = True
+        from_attributes = True

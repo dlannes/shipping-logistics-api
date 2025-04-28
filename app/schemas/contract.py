@@ -1,5 +1,6 @@
 from pydantic import BaseModel
-from app.models.cargo import Cargo
+from app.schemas.cargo import Cargo
+
 
 class ContractBase(BaseModel):
     client_name: str
@@ -12,7 +13,8 @@ class ContractCreate(ContractBase):
 
 class Contract(ContractBase):
     id: int
-    cargoes: list[Cargo] | None = []
+    cargoes: list["Cargo"] | None = []
 
     class Config:
-        orm_mode = True
+        from_attributes = True
+

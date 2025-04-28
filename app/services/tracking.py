@@ -3,7 +3,7 @@ from app.models.tracking import Tracking
 from app.schemas.tracking import TrackingCreate
 
 def create_tracking(db: Session, tracking: TrackingCreate):
-    db_tracking = Tracking(**tracking.dict())
+    db_tracking = Tracking(**tracking.model_dump())
     db.add(db_tracking)
     db.commit()
     db.refresh(db_tracking)
