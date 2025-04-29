@@ -1,4 +1,4 @@
-from pydantic import BaseModel
+from pydantic import BaseModel, ConfigDict
 from app.schemas.cargo import Cargo
 
 
@@ -14,8 +14,7 @@ class ContractCreate(ContractBase):
 
 
 class Contract(ContractBase):
+    model_config = ConfigDict(from_attributes=True)
+
     id: int
     cargos: list["Cargo"] | None = []
-
-    class Config:
-        from_attributes = True

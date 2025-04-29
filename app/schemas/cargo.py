@@ -1,6 +1,5 @@
-from pydantic import BaseModel, Field
+from pydantic import BaseModel, Field, ConfigDict
 from app.schemas.tracking import Tracking
-
 
 class CargoBase(BaseModel):
     contract_id: int
@@ -12,8 +11,7 @@ class CargoCreate(CargoBase):
 
 
 class Cargo(CargoBase):
+    model_config = ConfigDict(from_attributes=True)
+
     id: int
     tracking_history: list["Tracking"] | None = []
-
-    class Config:
-        from_attributes = True
