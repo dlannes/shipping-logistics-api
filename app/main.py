@@ -3,11 +3,10 @@ from sqlalchemy.orm import Session
 from typing import List
 
 from app import schemas, services
-from app.db import SessionLocal, engine, Base
+from app.db import SessionLocal
 from app.logger import logger
 
 
-Base.metadata.create_all(bind=engine)  # TODO
 app = FastAPI(title="Shipping Logistics API", version="1.0")
 
 

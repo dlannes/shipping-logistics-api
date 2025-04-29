@@ -1,21 +1,35 @@
+import os
 import pytest
+
 from fastapi.testclient import TestClient
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
+from alembic.config import Config
+from alembic import command
 
-from app.db import Base
 from app.main import get_db
 from app.main import app
 
-# Create a test database
+# Set up test database URL
 SQLALCHEMY_DATABASE_URL = "sqlite:///./test.db"
-engine = create_engine(
-    SQLALCHEMY_DATABASE_URL, connect_args={"check_same_thread": False}
-)
+
+# Ensure clean slate
+if os.path.exists("test.db"):
+    os.remove("test.db")
+
+# Create engine and session
+engine = create_engine(SQLALCHEMY_DATABASE_URL, connect_args={"check_same_thread": False})
 TestingSessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
 
+# Run Alembic migrations for test DB
+def run_migrations():
+    alembic_cfg = Config("alembic.ini")
+    alembic_cfg.set_main_option("sqlalchemy.url", SQLALCHEMY_DATABASE_URL)
+    command.upgrade(alembic_cfg, "head")
 
-# Override get_db dependency
+run_migrations()
+
+# Dependency override
 def override_get_db():
     db = TestingSessionLocal()
     try:
@@ -23,14 +37,9 @@ def override_get_db():
     finally:
         db.close()
 
-
-# Apply the override
 app.dependency_overrides[get_db] = override_get_db
 
-# Create tables
-Base.metadata.create_all(bind=engine)
-
-
+# Test client fixture
 @pytest.fixture(scope="module")
 def client():
     with TestClient(app) as c:
