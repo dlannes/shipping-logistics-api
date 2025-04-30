@@ -1,6 +1,6 @@
 from sqlalchemy import Column, Integer, String
+from sqlalchemy.orm import relationship
 from app.db import Base
-
 
 class Vessel(Base):
     __tablename__ = "vessels"
@@ -9,3 +9,5 @@ class Vessel(Base):
     name = Column(String, nullable=False)
     capacity = Column(Integer, nullable=False)
     current_location = Column(String, nullable=False)
+
+    cargoes = relationship("Cargo", back_populates="vessel")

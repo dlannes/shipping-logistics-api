@@ -5,6 +5,7 @@ from app.schemas.cargo import Cargo
 class ContractBase(BaseModel):
     client_name: str
     cargo_type: str
+    origin: str
     destination: str
     price: float
 
@@ -17,4 +18,4 @@ class Contract(ContractBase):
     model_config = ConfigDict(from_attributes=True)
 
     id: int
-    cargos: list["Cargo"] | None = []
+    cargo: list["Cargo"] | None = []

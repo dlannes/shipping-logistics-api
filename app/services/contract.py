@@ -1,19 +1,25 @@
 from sqlalchemy.orm import Session
-from app.models.contract import Contract
-from app.schemas.contract import ContractCreate
+
+from app import models, schemas
 
 
-def create_contract(db: Session, contract: ContractCreate):
-    db_contract = Contract(**contract.model_dump())
-    db.add(db_contract)
+def create_contract(db: Session, contract_data: schemas.ContractCreate):
+    contract = models.Contract(**contract_data.model_dump())
+    db.add(contract)
+    db.flush()
+
+    cargo = models.Cargo(
+        contract_id=contract.id,
+        status="pending",
+        current_location=contract.origin
+    )
+    db.add(cargo)
     db.commit()
-    db.refresh(db_contract)
-    return db_contract
-
+    db.refresh(contract)
+    return contract
 
 def get_contract(db: Session, contract_id: int):
-    return db.query(Contract).filter(Contract.id == contract_id).first()
-
+    return db.query(models.Contract).filter_by(id=contract_id).first()
 
 def list_contracts(db: Session):
-    return db.query(Contract).all()
+    return db.query(models.Contract).all()

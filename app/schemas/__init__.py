@@ -1,3 +1,6 @@
-from . import cargo, contract, tracking, vessel
+from .cargo import Cargo
+from .contract import Contract, ContractCreate
+from .tracking import Tracking
+from .vessel import Vessel, VesselCreate
 
-__all__ = ["cargo", "contract", "tracking", "vessel"]
+__all__ = ["Cargo", "Contract", "ContractCreate", "Tracking", "Vessel", "VesselCreate"]

@@ -1,17 +1,11 @@
-from pydantic import BaseModel, Field, ConfigDict
+from pydantic import BaseModel, ConfigDict
 from app.schemas.tracking import Tracking
 
-class CargoBase(BaseModel):
-    contract_id: int
-    status: str | None = Field(default="pending")
-
-
-class CargoCreate(CargoBase):
-    pass
-
-
-class Cargo(CargoBase):
+class Cargo(BaseModel):
     model_config = ConfigDict(from_attributes=True)
 
     id: int
-    tracking_history: list["Tracking"] | None = []
+    status: str
+    current_location: str | None
+    vessel_id: int | None
+    tracking: list[Tracking] = []

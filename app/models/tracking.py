@@ -1,15 +1,14 @@
-from sqlalchemy import Column, Integer, String, ForeignKey, DateTime
+from sqlalchemy import Column, Integer, String, DateTime, ForeignKey
 from sqlalchemy.orm import relationship
-from app.db import Base
 from datetime import datetime
-
+from app.db import Base
 
 class Tracking(Base):
     __tablename__ = "trackings"
 
     id = Column(Integer, primary_key=True, index=True)
-    cargo_id = Column(Integer, ForeignKey("cargos.id"), nullable=False)
-    timestamp = Column(DateTime, default=datetime.now)
+    cargo_id = Column(Integer, ForeignKey("cargoes.id"), nullable=False)
     location = Column(String, nullable=False)
+    timestamp = Column(DateTime, default=datetime.now)
 
-    cargo = relationship("Cargo", back_populates="tracking_history")
+    cargo = relationship("Cargo", back_populates="tracking")
