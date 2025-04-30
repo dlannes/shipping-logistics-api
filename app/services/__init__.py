@@ -1,5 +1,6 @@
 from . import contract
-from . import logistics
+from . import tracking
 from . import vessel
+from . import cargo
 
-__all__ = ["contract", "logistics", "vessel"]
+__all__ = ["contract", "tracking", "vessel", "cargo"]

@@ -18,4 +18,4 @@ class Contract(ContractBase):
     model_config = ConfigDict(from_attributes=True)
 
     id: int
-    cargo: list["Cargo"] | None = []
+    cargo: "Cargo"

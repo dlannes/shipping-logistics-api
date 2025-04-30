@@ -6,7 +6,7 @@ from sqlalchemy import pool
 from alembic import context
 
 from app.db import Base
-from app.models import contract, cargo, vessel, tracking  # noqa: F401
+from app.models import *  # noqa: F403
 
 # this is the Alembic Config object, which provides
 # access to the values within the .ini file in use.
@@ -21,7 +21,8 @@ if config.config_file_name is not None:
 # for 'autogenerate' support
 # from myapp import mymodel
 # target_metadata = mymodel.Base.metadata
-target_metadata = None
+
+target_metadata = Base.metadata
 
 # other values from the config, defined by the needs of env.py,
 # can be acquired:
@@ -65,8 +66,6 @@ def run_migrations_online() -> None:
         prefix="sqlalchemy.",
         poolclass=pool.NullPool,
     )
-
-    target_metadata = Base.metadata
 
     with connectable.connect() as connection:
         context.configure(

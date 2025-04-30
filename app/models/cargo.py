@@ -8,7 +8,7 @@ class Cargo(Base):
     id = Column(Integer, primary_key=True, index=True)
     contract_id = Column(Integer, ForeignKey("contracts.id"), nullable=False)
     vessel_id = Column(Integer, ForeignKey("vessels.id"), nullable=True)
-    status = Column(String, default="pending")  # pending, in_transit, delivered
+    status = Column(String, default="pending")
     current_location = Column(String, nullable=True)
 
     contract = relationship("Contract", back_populates="cargo")

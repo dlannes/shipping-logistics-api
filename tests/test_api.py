@@ -1,3 +1,25 @@
+import pytest
+
+@pytest.fixture(scope="module", autouse=True)
+def setup_initial_data(client):
+    # Create contract and extract cargo ID
+    contract_response = client.post("/contracts/", json={
+        "client_name": "NavegaTech",
+        "cargo_type": "Equipamento Marítimo",
+        "origin": "Porto",
+        "destination": "Rotterdam",
+        "price": 15000.00
+    })
+    assert contract_response.status_code == 200
+
+    # Create vessel
+    vessel_response = client.post("/vessels/", json={
+        "name": "Mar Lusitano",
+        "capacity": 1,
+        "current_location": "Porto"
+    })
+    assert vessel_response.status_code == 200
+
 def test_create_contract_creates_cargo(client):
     response = client.post("/contracts/", json={
         "client_name": "NavegaTech",
