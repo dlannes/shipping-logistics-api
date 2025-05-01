@@ -24,7 +24,7 @@ def create_vessel(
     return vessel_service.create_vessel(vessel_data)
 
 
-@router.post("{vessel_id}/move")
+@router.post("/{vessel_id}/move")
 def move_vessel(
     vessel_id: int,
     location: str,
@@ -38,7 +38,7 @@ def move_vessel(
     return result
 
 
-@router.get("{vessel_id}")
+@router.get("/{vessel_id}")
 def get_vessel(
     vessel_id: int, vessel_service: VesselService = Depends(get_vessel_service)
 ) -> VesselDetails:
