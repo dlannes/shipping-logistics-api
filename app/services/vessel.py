@@ -3,21 +3,22 @@ from sqlalchemy.orm import Session
 
 from app import models, schemas
 
+#TODO: cleanup
 
-def create_vessel(db: Session, vessel_data: schemas.VesselCreate):
+def create_vessel(db: Session, vessel_data: schemas.VesselCreate) -> models.Vessel:
     vessel = models.Vessel(**vessel_data.model_dump())
     db.add(vessel)
     db.commit()
     db.refresh(vessel)
     return vessel
 
-def get_vessel(db: Session, vessel_id: int):
+def get_vessel(db: Session, vessel_id: int) -> models.Vessel | None:
     return db.query(models.Vessel).filter_by(id=vessel_id).first()
 
 def list_vessels(db: Session):
     return db.query(models.Vessel).all()
 
-def move_vessel(db: Session, vessel_id: int, new_location: str):
+def move_vessel(db: Session, vessel_id: int, new_location: str) -> models.Vessel | None:
     vessel = db.query(models.Vessel).filter_by(id=vessel_id).first()
     if not vessel:
         return None

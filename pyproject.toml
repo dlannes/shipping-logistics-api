@@ -1,10 +1,40 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[project]
+name = "shipping-logistics-api"
+version = "1.0.0"
+description = "An API for managing a logistics company that ships general goods via vessels."
+authors = [
+    { name="Dan Esteve", email="dan.lannes@outlook.com" }
+]
+requires-python = ">=3.13"
+dependencies = [
+    "pydantic",
+    "uvicorn[standard]",
+    "fastapi",
+    "sqlalchemy",
+    "alembic",
+    "httpx"
+]
+
+[project.optional-dependencies]
+dev = [
+    "pytest",
+    "black",
+    "flake8",
+    "mypy"
+]
+
 [tool.black]
 line-length = 88
-target-version = ['py313']
+target-version = ["py313"]
 
 [tool.flake8]
 max-line-length = 88
 extend-ignore = ["E203", "W503"]
+exclude = [".venv", "build", "dist"]
 
 [tool.mypy]
 python_version = "3.13"
