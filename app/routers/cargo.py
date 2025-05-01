@@ -8,10 +8,12 @@ from app.logger import logger
 
 router = APIRouter(prefix="/cargoes")
 
-@router.get("", response_model= list[schemas.Cargo])
+
+@router.get("", response_model=list[schemas.Cargo])
 def list_cargoes(db: Session = Depends(get_db)):
     logger.info("Listing all cargoes")
     return services.cargo.list_cargoes(db)
+
 
 @router.get("{cargo_id}", response_model=schemas.Cargo)
 def get_cargo(cargo_id: int, db: Session = Depends(get_db)):

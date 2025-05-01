@@ -13,5 +13,5 @@ class VesselCreate(VesselBase):
 
 class Vessel(VesselBase):
     model_config = ConfigDict(from_attributes=True)
-    
+
     id: int

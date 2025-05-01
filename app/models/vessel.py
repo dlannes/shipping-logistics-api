@@ -2,6 +2,7 @@ from sqlalchemy import Column, Integer, String
 from sqlalchemy.orm import relationship
 from app.db import Base
 
+
 class Vessel(Base):
     __tablename__ = "vessels"
 

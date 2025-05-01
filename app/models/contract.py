@@ -2,6 +2,7 @@ from sqlalchemy import Column, Integer, String, Float
 from sqlalchemy.orm import relationship
 from app.db import Base
 
+
 class Contract(Base):
     __tablename__ = "contracts"
 

@@ -14,6 +14,7 @@ def create_vessel(vessel_data: schemas.VesselCreate, db: Session = Depends(get_d
     logger.info(f"Registering vessel: {vessel_data.name}")
     return services.vessel.create_vessel(db, vessel_data)
 
+
 @router.post("{vessel_id}/move", response_model=schemas.Vessel)
 def move_vessel(vessel_id: int, location: str, db: Session = Depends(get_db)):
     logger.info(f"Moving vessel {vessel_id} to {location}")
@@ -23,6 +24,7 @@ def move_vessel(vessel_id: int, location: str, db: Session = Depends(get_db)):
         raise HTTPException(status_code=404, detail="Vessel not found")
     return result
 
+
 @router.get("{vessel_id}", response_model=schemas.Vessel)
 def get_vessel(vessel_id: int, db: Session = Depends(get_db)):
     logger.info(f"Fetching vessel with ID: {vessel_id}")
@@ -31,6 +33,7 @@ def get_vessel(vessel_id: int, db: Session = Depends(get_db)):
         logger.warning(f"Vessel {vessel_id} not found")
         raise HTTPException(status_code=404, detail="Vessel not found")
     return db_vessel
+
 
 @router.get("", response_model=list[schemas.Vessel])
 def list_vessels(db: Session = Depends(get_db)):

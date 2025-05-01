@@ -9,7 +9,8 @@ from app.logger import logger
 router = APIRouter(prefix="/trackings")
 
 
-#TODO: not found
+# TODO: not found
+
 
 @router.get("{cargo_id}", response_model=list[schemas.Tracking])
 def get_tracking_for_cargo(cargo_id: int, db: Session = Depends(get_db)):

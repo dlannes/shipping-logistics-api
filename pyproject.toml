@@ -24,19 +24,22 @@ dev = [
     "pytest",
     "black",
     "flake8",
+    "flake8-pyproject",
     "mypy"
 ]
 
 [tool.black]
 line-length = 88
 target-version = ["py313"]
+exclude = '/(\\.venv|__pycache__|alembic)/'
 
 [tool.flake8]
 max-line-length = 88
 extend-ignore = ["E203", "W503"]
-exclude = [".venv", "build", "dist"]
+exclude = [".venv", "__pycache__", "alembic"]
 
 [tool.mypy]
 python_version = "3.13"
 warn_unused_configs = true
 disallow_untyped_defs = true
+exclude = '^tests/'
