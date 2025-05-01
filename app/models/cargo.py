@@ -15,3 +15,7 @@ class Cargo(Base):
     contract = relationship("Contract", back_populates="cargo")
     vessel = relationship("Vessel", back_populates="cargoes")
     tracking = relationship("Tracking", back_populates="cargo")
+
+    @property
+    def destination(self) -> str | None:
+        return self.contract.destination if self.contract else None

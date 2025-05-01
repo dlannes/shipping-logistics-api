@@ -8,5 +8,8 @@ class Cargo(BaseModel):
     id: int
     status: str
     current_location: str | None
+    destination: str | None
     vessel_id: int | None
+
+class CargoDetails(Cargo):
     tracking: list[Tracking] = []

@@ -2,7 +2,7 @@ from fastapi import APIRouter, Depends, HTTPException
 from sqlalchemy.orm import Session
 from typing import cast
 
-from app.schemas import Cargo
+from app.schemas import Cargo, CargoDetails
 from app.services import CargoService
 from app.db import get_db
 from app.logger import logger
@@ -26,7 +26,7 @@ def list_cargoes(
 @router.get("/{cargo_id}")
 def get_cargo(
     cargo_id: int, cargo_service: CargoService = Depends(get_cargo_service)
-) -> Cargo:
+) -> CargoDetails:
     logger.info(f"Fetching cargo with ID: {cargo_id}")
     cargo_obj = cargo_service.get_cargo(cargo_id)
     if not cargo_obj:

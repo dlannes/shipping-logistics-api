@@ -2,7 +2,7 @@ from fastapi import APIRouter, Depends, HTTPException
 from sqlalchemy.orm import Session
 from typing import cast
 
-from app.schemas import Vessel, VesselCreate
+from app.schemas import Vessel, VesselCreate, VesselDetails
 from app.services import VesselService
 from app.db import get_db
 from app.logger import logger
@@ -41,7 +41,7 @@ def move_vessel(
 @router.get("{vessel_id}")
 def get_vessel(
     vessel_id: int, vessel_service: VesselService = Depends(get_vessel_service)
-) -> Vessel:
+) -> VesselDetails:
     logger.info(f"Fetching vessel with ID: {vessel_id}")
     db_vessel = vessel_service.get_vessel(vessel_id)
     if not db_vessel:
