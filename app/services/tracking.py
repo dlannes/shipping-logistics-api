@@ -7,8 +7,7 @@ from app import models
 
 class TrackingServiceInterface(ABC):
     @abstractmethod
-    def get_tracking_for_cargo(self, cargo_id: int) -> List[models.Tracking]:
-        ...
+    def get_tracking_for_cargo(self, cargo_id: int) -> List[models.Tracking]: ...
 
 
 class TrackingService(TrackingServiceInterface):

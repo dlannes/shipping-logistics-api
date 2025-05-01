@@ -6,12 +6,10 @@ from app import models
 
 class CargoServiceInterface(ABC):
     @abstractmethod
-    def get_cargo(self, cargo_id: int) -> Optional[models.Cargo]:
-        ...
+    def get_cargo(self, cargo_id: int) -> Optional[models.Cargo]: ...
 
     @abstractmethod
-    def list_cargoes(self) -> list[models.Cargo]:
-        ...
+    def list_cargoes(self) -> list[models.Cargo]: ...
 
 
 class CargoService(CargoServiceInterface):

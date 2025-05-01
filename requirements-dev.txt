@@ -31,9 +31,7 @@ colorama==0.4.6
 fastapi==0.115.12
     # via shipping-logistics-api (pyproject.toml)
 flake8==7.2.0
-    # via
-    #   flake8-pyproject
-    #   shipping-logistics-api (pyproject.toml)
+    # via flake8-pyproject
 flake8-pyproject==1.2.3
     # via shipping-logistics-api (pyproject.toml)
 greenlet==3.2.1

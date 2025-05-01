@@ -6,26 +6,23 @@ from typing import List, Optional
 from app import models, schemas
 
 
-#TODO: check types
+# TODO: check types
+
 
 class VesselServiceInterface(ABC):
     @abstractmethod
-    def create_vessel(self, vessel_data: schemas.VesselCreate) -> models.Vessel:
-        ...
+    def create_vessel(self, vessel_data: schemas.VesselCreate) -> models.Vessel: ...
 
     @abstractmethod
-    def get_vessel(self, vessel_id: int) -> Optional[models.Vessel]:
-        ...
+    def get_vessel(self, vessel_id: int) -> Optional[models.Vessel]: ...
 
     @abstractmethod
-    def list_vessels(self) -> List[models.Vessel]:
-        ...
+    def list_vessels(self) -> List[models.Vessel]: ...
 
     @abstractmethod
     def move_vessel(
         self, vessel_id: int, new_location: str
-    ) -> Optional[models.Vessel]:
-        ...
+    ) -> Optional[models.Vessel]: ...
 
 
 class VesselService(VesselServiceInterface):
@@ -45,9 +42,7 @@ class VesselService(VesselServiceInterface):
     def list_vessels(self) -> List[models.Vessel]:
         return self.db.query(models.Vessel).all()
 
-    def move_vessel(
-        self, vessel_id: int, new_location: str
-    ) -> Optional[models.Vessel]:
+    def move_vessel(self, vessel_id: int, new_location: str) -> Optional[models.Vessel]:
         vessel = self.db.query(models.Vessel).filter_by(id=vessel_id).first()
         if not vessel:
             return None
@@ -61,7 +56,9 @@ class VesselService(VesselServiceInterface):
                     cargo.vessel_id = None
                 self.db.add(
                     models.Tracking(
-                        cargo_id=cargo.id, location=new_location, timestamp=datetime.now()
+                        cargo_id=cargo.id,
+                        location=new_location,
+                        timestamp=datetime.now(),
                     )
                 )
 
@@ -69,7 +66,7 @@ class VesselService(VesselServiceInterface):
         available_slots = vessel.capacity - sum(
             1 for c in vessel.cargoes if c.status == "in_transit"
         )
-        if available_slots > 0: # type: ignore
+        if available_slots > 0:  # type: ignore
             candidates = (
                 self.db.query(models.Cargo)
                 .filter_by(status="pending", current_location=new_location)
@@ -78,14 +75,16 @@ class VesselService(VesselServiceInterface):
             )
             for cargo in candidates:
                 cargo.vessel_id = vessel.id
-                cargo.status = "in_transit" # type: ignore
+                cargo.status = "in_transit"  # type: ignore
                 self.db.add(
                     models.Tracking(
-                        cargo_id=cargo.id, location=new_location, timestamp=datetime.now()
+                        cargo_id=cargo.id,
+                        location=new_location,
+                        timestamp=datetime.now(),
                     )
                 )
 
-        vessel.current_location = new_location # type: ignore
+        vessel.current_location = new_location  # type: ignore
         self.db.commit()
         self.db.refresh(vessel)
         return vessel

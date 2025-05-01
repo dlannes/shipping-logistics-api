@@ -9,25 +9,20 @@ class ContractServiceInterface(ABC):
     @abstractmethod
     def create_contract(
         self, contract_data: schemas.ContractCreate
-    ) -> models.Contract:
-        ...
+    ) -> models.Contract: ...
 
     @abstractmethod
-    def get_contract(self, contract_id: int) -> Optional[models.Contract]:
-        ...
+    def get_contract(self, contract_id: int) -> Optional[models.Contract]: ...
 
     @abstractmethod
-    def list_contracts(self) -> list[models.Contract]:
-        ...
+    def list_contracts(self) -> list[models.Contract]: ...
 
 
 class ContractService(ContractServiceInterface):
     def __init__(self, db: Session):
         self.db = db
 
-    def create_contract(
-        self, contract_data: schemas.ContractCreate
-    ) -> models.Contract:
+    def create_contract(self, contract_data: schemas.ContractCreate) -> models.Contract:
         contract = models.Contract(**contract_data.model_dump())
         self.db.add(contract)
         self.db.flush()

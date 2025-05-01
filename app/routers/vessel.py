@@ -1,7 +1,8 @@
 from fastapi import APIRouter, Depends, HTTPException
 from sqlalchemy.orm import Session
+from typing import cast
 
-from app import schemas
+from app.schemas import Vessel, VesselCreate
 from app.services import VesselService
 from app.db import get_db
 from app.logger import logger
@@ -9,17 +10,26 @@ from app.logger import logger
 
 router = APIRouter(prefix="/vessels")
 
+
 def get_vessel_service(db: Session = Depends(get_db)) -> VesselService:
     return VesselService(db)
 
-@router.post("", response_model=schemas.Vessel)
-def create_vessel(vessel_data: schemas.VesselCreate, vessel_service: VesselService = Depends(get_vessel_service)):
+
+@router.post("")
+def create_vessel(
+    vessel_data: VesselCreate,
+    vessel_service: VesselService = Depends(get_vessel_service),
+) -> Vessel:
     logger.info(f"Registering vessel: {vessel_data.name}")
     return vessel_service.create_vessel(vessel_data)
 
 
-@router.post("{vessel_id}/move", response_model=schemas.Vessel)
-def move_vessel(vessel_id: int, location: str, vessel_service: VesselService = Depends(get_vessel_service)):
+@router.post("{vessel_id}/move")
+def move_vessel(
+    vessel_id: int,
+    location: str,
+    vessel_service: VesselService = Depends(get_vessel_service),
+) -> Vessel:
     logger.info(f"Moving vessel {vessel_id} to {location}")
     result = vessel_service.move_vessel(vessel_id, location)
     if not result:
@@ -28,8 +38,10 @@ def move_vessel(vessel_id: int, location: str, vessel_service: VesselService = D
     return result
 
 
-@router.get("{vessel_id}", response_model=schemas.Vessel)
-def get_vessel(vessel_id: int, vessel_service: VesselService = Depends(get_vessel_service)):
+@router.get("{vessel_id}")
+def get_vessel(
+    vessel_id: int, vessel_service: VesselService = Depends(get_vessel_service)
+) -> Vessel:
     logger.info(f"Fetching vessel with ID: {vessel_id}")
     db_vessel = vessel_service.get_vessel(vessel_id)
     if not db_vessel:
@@ -38,7 +50,9 @@ def get_vessel(vessel_id: int, vessel_service: VesselService = Depends(get_vesse
     return db_vessel
 
 
-@router.get("", response_model=list[schemas.Vessel])
-def list_vessels(vessel_service: VesselService = Depends(get_vessel_service)):
+@router.get("")
+def list_vessels(
+    vessel_service: VesselService = Depends(get_vessel_service),
+) -> list[Vessel]:
     logger.info("Listing all vessels")
-    return vessel_service.list_vessels()
+    return cast(list, vessel_service.list_vessels())
