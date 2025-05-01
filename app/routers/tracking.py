@@ -8,7 +8,7 @@ from app.db import get_db
 from app.logger import logger
 
 
-router = APIRouter(prefix="/trackings")
+router = APIRouter(prefix="/trackings", tags=["Tracking"])
 
 
 # TODO: not found

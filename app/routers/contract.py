@@ -8,7 +8,7 @@ from app.db import get_db
 from app.logger import logger
 
 
-router = APIRouter(prefix="/contracts")
+router = APIRouter(prefix="/contracts", tags=["Contract"])
 
 
 def get_contract_service(db: Session = Depends(get_db)) -> ContractService:

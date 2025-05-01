@@ -8,7 +8,7 @@ from app.db import get_db
 from app.logger import logger
 
 
-router = APIRouter(prefix="/vessels")
+router = APIRouter(prefix="/vessels", tags=["Vessel"])
 
 
 def get_vessel_service(db: Session = Depends(get_db)) -> VesselService:

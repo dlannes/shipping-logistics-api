@@ -8,7 +8,7 @@ from app.db import get_db
 from app.logger import logger
 
 
-router = APIRouter(prefix="/cargoes")
+router = APIRouter(prefix="/cargoes", tags=["Cargo"])
 
 
 def get_cargo_service(db: Session = Depends(get_db)) -> CargoService:
