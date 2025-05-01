@@ -1,7 +1,8 @@
 from fastapi import APIRouter, Depends
 from sqlalchemy.orm import Session
 
-from app import schemas, services
+from app import schemas
+from app.services import TrackingService
 from app.db import get_db
 from app.logger import logger
 
@@ -10,9 +11,11 @@ router = APIRouter(prefix="/trackings")
 
 
 # TODO: not found
+def get_tracking_service(db: Session = Depends(get_db)) -> TrackingService:
+    return TrackingService(db)
 
 
-@router.get("{cargo_id}", response_model=list[schemas.Tracking])
-def get_tracking_for_cargo(cargo_id: int, db: Session = Depends(get_db)):
+@router.get("/{cargo_id}", response_model=list[schemas.Tracking])
+def get_tracking_for_cargo(cargo_id: int, tracking_service: TrackingService = Depends(get_tracking_service)):
     logger.info(f"Fetching tracking for cargo ID: {cargo_id}")
-    return services.tracking.get_tracking_for_cargo(db, cargo_id)
+    return tracking_service.get_tracking_for_cargo(cargo_id)
