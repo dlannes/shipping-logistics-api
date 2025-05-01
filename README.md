@@ -54,7 +54,8 @@ It tracks:
 
 ## API Documentation
 
-Base URL: `/`
+Swagger UI available at: `/docs`
+Redoc available at: `/redoc`
 
 ### **Contracts**
 
