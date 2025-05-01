@@ -1,15 +1,18 @@
 import pytest
 
+
 @pytest.fixture(scope="module")
 def seeded_contract_and_cargo(client):
-    # Create a contract that automatically creates cargo
-    response = client.post("/contracts/", json={
-        "client_name": "PortoLog",
-        "cargo_type": "Vinho do Porto",
-        "origin": "Porto",
-        "destination": "Rotterdam",
-        "price": 5000.0
-    })
+    response = client.post(
+        "/contracts/",
+        json={
+            "client_name": "PortoLog",
+            "cargo_type": "Vinho do Porto",
+            "origin": "Porto",
+            "destination": "Rotterdam",
+            "price": 5000.0,
+        },
+    )
     assert response.status_code == 200
     data = response.json()
     cargo_id = data["cargo"]["id"]

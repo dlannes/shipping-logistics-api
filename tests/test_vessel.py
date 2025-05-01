@@ -1,23 +1,22 @@
 import pytest
 
+
 @pytest.fixture()
 def created_vessel(client):
-    response = client.post("/vessels", json={
-        "name": "Mar Lusitano",
-        "capacity": 2,
-        "current_location": "Porto"
-    })
+    response = client.post(
+        "/vessels",
+        json={"name": "Mar Lusitano", "capacity": 2, "current_location": "Porto"},
+    )
     assert response.status_code == 200
     vessel_id = response.json()["id"]
     return vessel_id
 
 
 def test_create_vessel(client):
-    response = client.post("/vessels", json={
-        "name": "Navio Atlântico",
-        "capacity": 3,
-        "current_location": "Hamburgo"
-    })
+    response = client.post(
+        "/vessels",
+        json={"name": "Navio Atlântico", "capacity": 3, "current_location": "Hamburgo"},
+    )
     assert response.status_code == 200
     data = response.json()
     assert data["name"] == "Navio Atlântico"
@@ -26,16 +25,21 @@ def test_create_vessel(client):
 
 
 def test_create_vessel_invalid_input(client):
-    response = client.post("/vessels", json={
-        "name": "",  # Invalid: empty name (if you enforce non-empty)
-        "capacity": "large",  # Invalid: should be int
-        "current_location": "Lisboa"
-    })
+    response = client.post(
+        "/vessels",
+        json={
+            "name": "",
+            "capacity": "large",
+            "current_location": "Lisboa",
+        },
+    )
     assert response.status_code == 422
 
 
 def test_move_existing_vessel(client, created_vessel):
-    response = client.post(f"/vessels/{created_vessel}/move", params={"location": "Rotterdam"})
+    response = client.post(
+        f"/vessels/{created_vessel}/move", params={"location": "Rotterdam"}
+    )
     assert response.status_code == 200
     data = response.json()
     assert data["current_location"] == "Rotterdam"

@@ -11,5 +11,6 @@ class Cargo(BaseModel):
     destination: str | None
     vessel_id: int | None
 
+
 class CargoDetails(Cargo):
     tracking: list[Tracking] = []

@@ -1,14 +1,18 @@
 import pytest
 
+
 @pytest.fixture(scope="module")
 def created_contract(client):
-    response = client.post("/contracts", json={
-        "client_name": "PortoLog",
-        "cargo_type": "Vinho do Porto",
-        "origin": "Porto",
-        "destination": "Rotterdam",
-        "price": 5000.0
-    })
+    response = client.post(
+        "/contracts",
+        json={
+            "client_name": "PortoLog",
+            "cargo_type": "Vinho do Porto",
+            "origin": "Porto",
+            "destination": "Rotterdam",
+            "price": 5000.0,
+        },
+    )
     assert response.status_code == 200
     data = response.json()
     contract_id = data["id"]
@@ -16,13 +20,16 @@ def created_contract(client):
 
 
 def test_create_contract(client):
-    response = client.post("/contracts", json={
-        "client_name": "NavalCo",
-        "cargo_type": "Peças Industriais",
-        "origin": "Porto",
-        "destination": "Hamburgo",
-        "price": 10000.0
-    })
+    response = client.post(
+        "/contracts",
+        json={
+            "client_name": "NavalCo",
+            "cargo_type": "Peças Industriais",
+            "origin": "Porto",
+            "destination": "Hamburgo",
+            "price": 10000.0,
+        },
+    )
     assert response.status_code == 200
     data = response.json()
     assert data["client_name"] == "NavalCo"

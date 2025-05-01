@@ -18,5 +18,6 @@ class Vessel(VesselBase):
 
     id: int
 
+
 class VesselDetails(Vessel):
     cargoes: list[Cargo]

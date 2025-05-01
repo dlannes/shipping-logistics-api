@@ -1,23 +1,26 @@
 import pytest
 
+
 @pytest.fixture()
 def seeded_cargo_and_vessel(client):
-    contract_resp = client.post("/contracts", json={
-        "client_name": "PortoLog",
-        "cargo_type": "Vinho do Porto",
-        "origin": "Porto",
-        "destination": "Rotterdam",
-        "price": 5000.0
-    })
+    contract_resp = client.post(
+        "/contracts",
+        json={
+            "client_name": "PortoLog",
+            "cargo_type": "Vinho do Porto",
+            "origin": "Porto",
+            "destination": "Rotterdam",
+            "price": 5000.0,
+        },
+    )
     assert contract_resp.status_code == 200
     contract_data = contract_resp.json()
     cargo_id = contract_data["cargo"]["id"]
 
-    vessel_resp = client.post("/vessels", json={
-        "name": "Lusitano",
-        "capacity": 1,
-        "current_location": "Porto"
-    })
+    vessel_resp = client.post(
+        "/vessels",
+        json={"name": "Lusitano", "capacity": 1, "current_location": "Porto"},
+    )
     assert vessel_resp.status_code == 200
     vessel_id = vessel_resp.json()["id"]
 
